@@ -1,0 +1,21 @@
+# 小说文件不纳入版本控制
+library/books/
+
+# 临时文件
+*.tmp
+*.bak
+*.swp
+
+# 日志文件
+*.log
+
+# Python缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# 编辑器配置
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace

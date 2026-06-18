@@ -6,6 +6,7 @@ from datetime import datetime
 from collections import defaultdict
 
 LIBRARY_PATH = '/workspace/library'
+BOOKS_PATH = os.path.join(LIBRARY_PATH, 'books')
 METADATA_FILE = os.path.join(LIBRARY_PATH, 'metadata.json')
 
 def load_metadata():
@@ -48,7 +49,7 @@ def add_book(title, author, category, source, word_count=0, status='连载', rat
     data["books"].append(book)
     save_metadata(data)
     
-    txt_path = os.path.join(LIBRARY_PATH, category, f"{title}.txt")
+    txt_path = os.path.join(BOOKS_PATH, category, f"{title}.txt")
     with open(txt_path, 'w', encoding='utf-8') as f:
         f.write(f"书名：{title}\n作者：{author}\n来源：{source}\n状态：{status}\n字数：{word_count}\n\n")
     
