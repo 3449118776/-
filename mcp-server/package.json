@@ -1,0 +1,25 @@
+{
+  "name": "wenxin-bijiang-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server for 文心笔匠 AI Writing Assistant - Memory System & Writing Modules",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "http": "node src/http-server.js",
+    "test": "node src/test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.1",
+    "zod": "^3.23.8",
+    "express": "^4.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0"
+  },
+  "keywords": ["mcp", "wenxin-bijiang", "writing", "novel", "memory"],
+  "license": "MIT"
+}
