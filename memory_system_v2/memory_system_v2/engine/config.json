@@ -1,0 +1,31 @@
+{
+  "thresholds": {
+    "foreshadowOverdueChapters": 30,
+    "memoryDensityLow": 2,
+    "memoryDensityGood": 5,
+    "emotionVarianceHigh": 0.5,
+    "emotionVarianceLow": 0.1,
+    "characterMissingChapters": 10,
+    "maxSearchResults": 20,
+    "maxSnapshots": 10,
+    "rollingSummaryRecent": 10,
+    "rollingSummaryMilestones": 50,
+    "autoArchiveMinLength": 100
+  },
+  "defaults": {
+    "recentContextLimit": 4,
+    "characterRole": "配角",
+    "foreshadowStatus": "未解",
+    "dataDir": "./data",
+    "autoSave": true
+  },
+  "features": {
+    "autoSave": true,
+    "autoConsistencyCheck": true,
+    "emotionTracking": true,
+    "patternDetection": true,
+    "rollingSummary": true,
+    "characterStateHistory": true,
+    "multiWork": true
+  }
+}

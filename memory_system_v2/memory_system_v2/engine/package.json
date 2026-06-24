@@ -1,0 +1,12 @@
+{
+  "name": "memory_system",
+  "version": "2.0.0",
+  "description": "网文创作专属结构化记忆系统 Skill V2",
+  "main": "entry_v2.js",
+  "scripts": {
+    "test": "node test_v2.js"
+  },
+  "keywords": ["novel", "memory", "writing", "skill"],
+  "author": "",
+  "license": "MIT"
+}

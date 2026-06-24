@@ -1,0 +1,33 @@
+{
+  "anchors": {
+    "core": [],
+    "characterTags": [],
+    "relationships": [],
+    "items": [],
+    "locations": [],
+    "promises": [],
+    "timeline": [],
+    "hooks": [],
+    "emotionTrack": [],
+    "dialogues": [],
+    "chapterContext": [],
+    "scenes": []
+  },
+  "chapterIndex": [],
+  "characterProfiles": {},
+  "charRoles": {},
+  "charStates": [],
+  "foreshadowLedger": [],
+  "itemLedger": [],
+  "factionGraph": {},
+  "timelineEvents": [],
+  "plotThreads": [],
+  "rollingSummary": { "recent": "", "milestones": "", "eras": "" },
+  "volumeMemories": [],
+  "characterHistory": {},
+  "meta": {
+    "title": "未命名",
+    "createdAt": 0,
+    "totalChapters": 0
+  }
+}
