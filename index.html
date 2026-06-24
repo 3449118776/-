@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文心笔匠 - AI 写作助手</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        header { text-align: center; padding: 4rem 0 2rem; }
+        h1 { font-size: 2.5rem; background: linear-gradient(135deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { color: #888; font-size: 1.1rem; margin-top: 0.5rem; }
+        .card { background: #1a1a2e; border-radius: 12px; padding: 1.5rem; margin: 1rem 0; border: 1px solid #2a2a4a; }
+        h2 { color: #667eea; margin-bottom: 1rem; font-size: 1.3rem; }
+        ul { list-style: none; }
+        li { padding: 0.5rem 0; color: #ccc; }
+        li::before { content: '▸ '; color: #764ba2; }
+        .tag { display: inline-block; background: #2a2a4a; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; margin: 0.25rem; color: #aaa; }
+        footer { text-align: center; padding: 3rem 0; color: #555; font-size: 0.9rem; }
+        a { color: #667eea; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .status { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #4ade80; margin-right: 0.5rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>文心笔匠</h1>
+            <p class="subtitle">AI 写作助手 · 结构化记忆引擎</p>
+        </header>
+
+        <div class="card">
+            <h2><span class="status"></span>系统状态</h2>
+            <p>文心笔匠写作助手已在线部署。</p>
+            <p style="margin-top: 0.5rem; color: #888;">版本: <span class="tag">v2.0.0</span> <span class="tag">Memory System</span></p>
+        </div>
+
+        <div class="card">
+            <h2>核心能力</h2>
+            <ul>
+                <li>结构化记忆系统 — 长篇小说人设不崩、伏笔不丢</li>
+                <li>世界观构建 — 完整的方法论指导</li>
+                <li>人物设计 — 深层人设矛盾生成</li>
+                <li>剧情架构 — 伏笔网络设计</li>
+                <li>17 维质量评估 — 毒点检测与逻辑一致性</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>六大写作模块</h2>
+            <ul>
+                <li>世界观构建指南</li>
+                <li>人物设计指南</li>
+                <li>剧情架构指南</li>
+                <li>正文质量指南</li>
+                <li>网文特化指南</li>
+                <li>高级工具集</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>项目结构</h2>
+            <ul>
+                <li><a href="modules/">写作模块文档</a></li>
+                <li><a href="memory_system_v2/memory_system_v2/engine/">记忆系统引擎</a></li>
+                <li><a href="growth/">进化系统</a></li>
+                <li><a href="SKILL.md">SKILL 定义</a></li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>文心笔匠 · 基于 Cloudflare Pages 部署</p>
+        </footer>
+    </div>
+
+    <script src="memory_system_v2/memory_system_v2/engine/MemorySkill_v2.js"></script>
+    <script>
+        console.log('文心笔匠 MemorySkill v2 已加载');
+        if (typeof MemorySkill !== 'undefined') {
+            try {
+                var ms = new MemorySkill();
+                ms.setTitle('文心笔匠');
+                console.log('MemorySkill 初始化成功', ms.diagnostics.fullCheck());
+            } catch(e) {
+                console.warn('MemorySkill 初始化跳过（浏览器兼容）', e);
+            }
+        }
+    </script>
+</body>
+</html>
