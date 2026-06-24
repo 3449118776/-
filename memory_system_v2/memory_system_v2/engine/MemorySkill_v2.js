@@ -34,8 +34,9 @@ var MemorySkill = (function () {
       scenes: []          // 场景
     };
 
-    // 章节索引：每章摘要
+    // 章节索引追踪（用于支持乱序章节）
     this._chapterIndex = [];
+    this._indexedChapters = {};
 
     // 角色档案
     this._characterProfiles = {};
@@ -97,12 +98,14 @@ var MemorySkill = (function () {
       this._anchors[category].push(entry);
     }
 
-    // 自动更新章节索引
-    if (options.chapter != null && options.chapter >= (this._chapterIndex.length > 0 ? this._chapterIndex[this._chapterIndex.length - 1].chapterIdx + 1 : 0)) {
+    // 自动更新章节索引（支持乱序添加）
+    if (options.chapter != null && !this._indexedChapters[options.chapter]) {
       this._chapterIndex.push({
         chapterIdx: options.chapter,
         summary: (this._chapterIndex.length > 0 ? this._chapterIndex[this._chapterIndex.length - 1].summary + ' ' : '') + text
       });
+      this._chapterIndex.sort(function (a, b) { return a.chapterIdx - b.chapterIdx; });
+      this._indexedChapters[options.chapter] = true;
       this._meta.totalChapters = Math.max(this._meta.totalChapters, options.chapter + 1);
     }
 
@@ -436,10 +439,19 @@ var MemorySkill = (function () {
 
     checkTimeline: function (ms) {
       var issues = [];
+      // 先按插入顺序排序（按时间戳）
       var sorted = ms._timelineEvents.slice().sort(function (a, b) { return (a.chapterIdx || 0) - (b.chapterIdx || 0); });
+      // 检查同一章节内的时间戳是否错乱
       for (var i = 1; i < sorted.length; i++) {
-        if ((sorted[i].chapterIdx || 0) < (sorted[i - 1].chapterIdx || 0)) {
-          issues.push({ type: '时间线错乱', detail: '时间线事件顺序异常', severity: 'low' });
+        if ((sorted[i].chapterIdx || 0) === (sorted[i - 1].chapterIdx || 0) && sorted[i].timestamp < sorted[i - 1].timestamp) {
+          issues.push({ type: '时间线错乱', detail: '同一章节内时间戳顺序异常', severity: 'low' });
+        }
+      }
+      // 检查原始数组是否有顺序错乱（不排序直接检测）
+      var raw = ms._timelineEvents;
+      for (var j = 1; j < raw.length; j++) {
+        if ((raw[j].chapterIdx || 0) < (raw[j - 1].chapterIdx || 0)) {
+          issues.push({ type: '时间线错乱', detail: '第' + raw[j].chapterIdx + '章事件记录顺序异常', severity: 'low' });
         }
       }
       return { score: Math.max(0, 100 - issues.length * 5), issues: issues };
@@ -500,7 +512,8 @@ var MemorySkill = (function () {
         var turningPoints = [];
         for (var j = 2; j < arc.length; j++) {
           var v0 = arc[j - 2].valence, v1 = arc[j - 1].valence, v2 = arc[j].valence;
-          if ((v0 < v1 && v1 < v2) || (v0 > v1 && v1 > v2)) {
+          // 检测趋势反转（真正的转折点）：先升后降 或 先降后升
+          if ((v0 < v1 && v1 > v2) || (v0 > v1 && v1 < v2)) {
             if (Math.abs(v2 - v0) > 1.0) {
               turningPoints.push({ chapter: arc[j].chapter, from: arc[j - 2].emotion, to: arc[j].emotion, direction: v2 > v0 ? '上升' : '下降' });
             }
@@ -915,10 +928,7 @@ var MemorySkill = (function () {
     return this._foreshadow.autoLink(this);
   };
 
-  // 快捷：比较两部作品
-  MemorySkill.compare = function (msA, msB) {
-    return msA._crossWork.compare(msA, msB);
-  };
+  // 快捷：比较两部作品（通过 createInstance.compare 使用）
 
   // ---- 工厂函数：创建实例时自动绑定公开 API ----
   var originalConstructor = MemorySkill;

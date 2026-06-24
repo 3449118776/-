@@ -45,10 +45,10 @@ try {
   if (fs && fs.existsSync('./config.json')) {
     const cfg = JSON.parse(fs.readFileSync('./config.json', 'utf-8'));
     _config = {
-      thresholds: { ..._config.thresholds, ...(cfg.thresholds || {}) },
-      defaults: { ..._config.defaults, ...(cfg.defaults || {}) },
       ..._config,
-      ...cfg
+      ...cfg,
+      thresholds: { ..._config.thresholds, ...(cfg.thresholds || {}) },
+      defaults: { ..._config.defaults, ...(cfg.defaults || {}) }
     };
   }
 } catch (e) { /* 使用默认配置 */ }
@@ -254,7 +254,7 @@ async function main(params) {
           locations: (ms && ms._anchors && ms._anchors.locations) ? ms._anchors.locations : [],
           items: (ms && ms._anchors && ms._anchors.items) ? ms._anchors.items : [],
           relationships: (ms && ms._anchors && ms._anchors.relationships) ? ms._anchors.relationships : [],
-          rollingSummary: ms && ms._rollingSummary ? ms._rollingSummary : ''
+          rollingSummary: ms && ms._rollingSummary ? ms._rollingSummary : { recent: '', milestones: '', eras: '' }
         };
         result.success = true;
         break;
