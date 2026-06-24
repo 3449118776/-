@@ -1,0 +1,185 @@
+{
+  "anchors": {
+    "core": [],
+    "characterTags": [],
+    "relationships": [
+      {
+        "text": "势力「韩家」状态更新：凉州豪强",
+        "chapterIdx": 0,
+        "timestamp": 1782344369325,
+        "charName": "",
+        "status": "",
+        "tags": []
+      },
+      {
+        "text": "势力「韩家」状态更新：凉州豪强",
+        "chapterIdx": 0,
+        "timestamp": 1782344369325,
+        "charName": "",
+        "status": "",
+        "tags": []
+      }
+    ],
+    "items": [
+      {
+        "text": "道具「环首刀」归属主角，汉末制式兵器",
+        "chapterIdx": 0,
+        "timestamp": 1782344369324,
+        "charName": "",
+        "status": "",
+        "tags": [
+          "item"
+        ]
+      },
+      {
+        "text": "道具「环首刀」归属主角，汉末制式兵器",
+        "chapterIdx": 0,
+        "timestamp": 1782344369325,
+        "charName": "",
+        "status": "",
+        "tags": [
+          "item"
+        ]
+      }
+    ],
+    "locations": [],
+    "promises": [],
+    "timeline": [],
+    "hooks": [],
+    "emotionTrack": [],
+    "dialogues": [],
+    "chapterContext": [],
+    "scenes": []
+  },
+  "chapterIndex": [
+    {
+      "chapterIdx": 0,
+      "summary": "主角穿越汉末凉州，发现韩家阴谋，收编流民六人"
+    },
+    {
+      "chapterIdx": 1,
+      "summary": "主角带队进发，遭遇羌人"
+    }
+  ],
+  "characterProfiles": {
+    "主角": {
+      "firstSeen": 0,
+      "lastSeen": 1,
+      "milestones": [],
+      "currentStatus": "行进中",
+      "location": "官道",
+      "emotion": "冷静"
+    },
+    "韩遂": {
+      "firstSeen": 0,
+      "lastSeen": 0,
+      "milestones": [],
+      "currentStatus": "布局中",
+      "location": "姑臧",
+      "emotion": "阴鸷"
+    }
+  },
+  "charRoles": {
+    "主角": "主角",
+    "韩遂": "反派"
+  },
+  "charStates": [],
+  "foreshadowLedger": [
+    {
+      "chapterIdx": 0,
+      "text": "韩家探子回城报信",
+      "status": "未解",
+      "createdAt": 1782344369325
+    },
+    {
+      "chapterIdx": 1,
+      "text": "羌人小队出现",
+      "status": "未解",
+      "createdAt": 1782344369327
+    }
+  ],
+  "itemLedger": [
+    {
+      "name": "环首刀",
+      "owner": "主角",
+      "chapterIdx": 0,
+      "description": "汉末制式兵器",
+      "timestamp": 1782344369324
+    },
+    {
+      "name": "环首刀",
+      "owner": "主角",
+      "chapterIdx": 0,
+      "description": "汉末制式兵器",
+      "timestamp": 1782344369325
+    }
+  ],
+  "factionGraph": {
+    "韩家": {
+      "name": "韩家",
+      "leader": "韩遂",
+      "members": [
+        "韩遂",
+        "探子甲"
+      ],
+      "firstSeen": 0,
+      "lastSeen": 0,
+      "status": "凉州豪强",
+      "history": [
+        {
+          "chapterIdx": 0,
+          "event": "凉州豪强",
+          "timestamp": 1782344369324
+        },
+        {
+          "chapterIdx": 0,
+          "event": "凉州豪强",
+          "timestamp": 1782344369325
+        }
+      ]
+    }
+  },
+  "timelineEvents": [],
+  "plotThreads": [],
+  "rollingSummary": {
+    "recent": "第1章：主角穿越汉末凉州，发现韩家阴谋，收编流民六人\n第2章：主角带队进发，遭遇羌人",
+    "milestones": "第1章：主角穿越汉末凉州，发现韩家阴谋，收编流民六人",
+    "eras": "第1章：主角穿越汉末凉州，发现韩家阴谋，收编流民六人 | 第2章：主角带队进发，遭遇羌人"
+  },
+  "volumeMemories": [],
+  "characterHistory": {
+    "主角": [
+      {
+        "chapterIdx": 0,
+        "status": "穿越者",
+        "location": "凉州荒野",
+        "emotion": "冷静",
+        "strength": "",
+        "timestamp": 1782344369325
+      },
+      {
+        "chapterIdx": 1,
+        "status": "行进中",
+        "location": "官道",
+        "emotion": "",
+        "strength": "",
+        "timestamp": 1782344369327
+      }
+    ],
+    "韩遂": [
+      {
+        "chapterIdx": 0,
+        "status": "布局中",
+        "location": "姑臧",
+        "emotion": "阴鸷",
+        "strength": "",
+        "timestamp": 1782344369325
+      }
+    ]
+  },
+  "meta": {
+    "title": "汉末：凉州辞",
+    "createdAt": 1782344369321,
+    "totalChapters": 2
+  }
+}
