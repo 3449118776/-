@@ -6,6 +6,7 @@
  */
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { WebStandardStreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js';
 import { z } from 'zod';
 
 // ============================================================
@@ -320,8 +321,6 @@ function registerTools(server, env) {
 // Worker 入口
 // ============================================================
 
-const serverCache = new WeakMap();
-
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -348,15 +347,14 @@ export default {
       }, { headers: cors });
     }
 
-    if (url.pathname === '/mcp' && request.method === 'POST') {
+    if (url.pathname === '/mcp' && (request.method === 'POST' || request.method === 'GET')) {
       const server = new McpServer({
         name: 'wenxin-bijiang-mcp-server',
         version: '1.1.0'
       });
       registerTools(server, env);
 
-      const { StreamableHTTPServerTransport } = await import('@modelcontextprotocol/sdk/server/streamableHttp.js');
-      const transport = new StreamableHTTPServerTransport({
+      const transport = new WebStandardStreamableHTTPServerTransport({
         enableJsonResponse: true
       });
 
