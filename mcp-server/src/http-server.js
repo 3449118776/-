@@ -59,7 +59,7 @@ app.get('/health', (req, res) => {
     server: 'wenxin-bijiang-mcp-server',
     version: '1.0.0',
     tools: {
-      memory: 10,
+      memory: 11,
       modules: 8
     },
     timestamp: Date.now()
@@ -72,7 +72,7 @@ app.get('/health', (req, res) => {
 app.get('/tools', (req, res) => {
   const tools = [
     ...['wenxin_init_work', 'wenxin_record_chapter', 'wenxin_record_character', 'wenxin_search_memory',
-      'wenxin_load_base', 'wenxin_check_consistency', 'wenxin_full_analysis', 'wenxin_list_works',
+      'wenxin_load_base', 'wenxin_load_context', 'wenxin_check_consistency', 'wenxin_full_analysis', 'wenxin_list_works',
       'wenxin_switch_work', 'wenxin_track_emotion'].map(n => ({ name: n, type: 'memory' })),
     ...['wenxin_world_building_guide', 'wenxin_character_design_guide', 'wenxin_plot_architecture_guide',
       'wenxin_text_quality_guide', 'wenxin_web_novel_guide', 'wenxin_advanced_tools_guide',

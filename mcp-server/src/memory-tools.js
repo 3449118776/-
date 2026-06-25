@@ -275,6 +275,92 @@ Returns:
   },
 
   // ============================================================
+  // 5b. 分层加载上下文（静态/半静态/动态）
+  // ============================================================
+  {
+    name: 'wenxin_load_context',
+    config: {
+      title: '分层加载记忆上下文',
+      description: `按静态/半静态/动态三级分层加载作品记忆数据。
+
+层级说明：
+  - static (静态): 核心设定、角色档案、势力图谱、地点 — 几乎不变，每次必带
+  - semi_static (半静态): 伏笔、道具、时间线、情节线索、关系变化 — 偶尔更新，按需加载
+  - dynamic (动态): 章节索引、滚动摘要、情感追踪 — 每章更新，滚动替换
+  - all (全部): 加载所有层级
+
+Args:
+  - layer (string): 层级 — "static" | "semi_static" | "dynamic" | "all"（默认"all"）
+  - workName (string, optional): 作品名称
+
+Returns:
+  Markdown: 按层级组织的记忆上下文`,
+      inputSchema: z.object({
+        layer: z.enum(['static', 'semi_static', 'dynamic', 'all']).default('all').describe('数据层级'),
+        workName: z.string().optional().describe('作品名称（可选，默认当前作品）'),
+        response_format: z.enum(['markdown', 'json']).default('markdown').describe('输出格式')
+      }).strict(),
+      annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: true }
+    },
+    handler: async ({ layer, workName, response_format }) => {
+      try {
+        const r = await memoryAction('get_context_by_layer', { layer, workName });
+        const data = r.data || {};
+        if (response_format === 'json') return toolResponse(formatJson(data), data);
+
+        const sections = [];
+
+        // 静态层概览
+        const st = data.static;
+        if (st) {
+          const charCount = Object.keys(st.characters || {}).length;
+          const factionCount = Object.keys(st.factions || {}).length;
+          sections.push({
+            title: `📌 静态设定`,
+            body: [
+              `**${st.title || '未命名'}** | 已写 ${st.totalChapters || 0} 章`,
+              `角色: ${charCount} 人 | 势力: ${factionCount} 个`,
+              `核心事实: ${(st.coreFacts || []).length} 条 | 地点: ${(st.locations || []).length} 处`
+            ].join('\n')
+          });
+        }
+
+        // 半静态层概览
+        const ss = data.semi_static;
+        if (ss) {
+          const unresolved = (ss.foreshadows || []).filter(f => f.status !== '已解').length;
+          const pendingThreads = (ss.plotThreads || []).filter(t => t.status === '待解').length;
+          sections.push({
+            title: `📋 半静态`,
+            body: [
+              `伏笔: ${unresolved} 个未解 / ${(ss.foreshadows || []).length} 个总计`,
+              `情节线索: ${pendingThreads} 条待解`,
+              `时间线事件: ${(ss.timelineEvents || []).length} 条`
+            ].join('\n')
+          });
+        }
+
+        // 动态层概览
+        const dy = data.dynamic;
+        if (dy) {
+          const totalCh = (dy.chapterIndex || []).length;
+          const recentSummary = dy.rollingSummary ? dy.rollingSummary.recent || '' : '';
+          sections.push({
+            title: `🔄 动态 (${totalCh} 章)`,
+            body: recentSummary.substring(0, 300) || '暂无章节数据'
+          });
+        }
+
+        if (sections.length === 0) {
+          sections.push({ title: '无数据', body: '该作品暂无记忆数据' });
+        }
+
+        return toolResponse(formatMarkdown('分层记忆上下文', sections), data);
+      } catch (e) { return handleError(e); }
+    }
+  },
+
+  // ============================================================
   // 6. 记忆一致性检查
   // ============================================================
   {
