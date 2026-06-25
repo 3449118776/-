@@ -22,17 +22,19 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { registerMemoryTools } from './memory-tools.js';
 import { registerModuleTools } from './module-tools.js';
+import { registerEvolutionTools } from './evolution-tools.js';
 
 // 创建 MCP 服务器实例
 const server = new McpServer({
   name: 'wenxin-bijiang-mcp-server',
-  version: '1.0.0',
-  description: '文心笔匠 AI 写作助手 MCP Server - 结构化记忆系统与写作方法论'
+  version: '1.1.0',
+  description: '文心笔匠 AI 写作助手 MCP Server - 结构化记忆系统、写作方法论、进化学习系统'
 });
 
 // 注册所有工具
 registerMemoryTools(server);
 registerModuleTools(server);
+registerEvolutionTools(server);
 
 // 启动 stdio 传输
 async function main() {

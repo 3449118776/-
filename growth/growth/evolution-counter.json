@@ -1,0 +1,141 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-06-25",
+  "description": "进化计数器 - 自动追踪同类问题的处理次数，达到阈值自动触发规则提炼",
+  
+  "thresholds": {
+    "successForRule": 3,
+    "failForAntiPattern": 2,
+    "preferenceForConfirm": 2,
+    "ruleVerificationForConfirm": 3,
+    "ruleVerificationForDiscard": 2
+  },
+  
+  "problemTypeCounter": {
+    "dialogue-polish": {
+      "success": 0,
+      "fail": 0,
+      "adjust": 0,
+      "lastSuccessDate": null,
+      "lastFailDate": null,
+      "relatedCases": [],
+      "potentialRule": null,
+      "status": "none"
+    },
+    "rhythm-adjust": {
+      "success": 0,
+      "fail": 0,
+      "adjust": 0,
+      "lastSuccessDate": null,
+      "lastFailDate": null,
+      "relatedCases": [],
+      "potentialRule": null,
+      "status": "none"
+    },
+    "character-polish": {
+      "success": 0,
+      "fail": 0,
+      "adjust": 0,
+      "lastSuccessDate": null,
+      "lastFailDate": null,
+      "relatedCases": [],
+      "potentialRule": null,
+      "status": "none"
+    },
+    "style-adapt": {
+      "success": 0,
+      "fail": 0,
+      "adjust": 0,
+      "lastSuccessDate": null,
+      "lastFailDate": null,
+      "relatedCases": [],
+      "potentialRule": null,
+      "status": "none"
+    },
+    "plot-fix": {
+      "success": 0,
+      "fail": 0,
+      "adjust": 0,
+      "lastSuccessDate": null,
+      "lastFailDate": null,
+      "relatedCases": [],
+      "potentialRule": null,
+      "status": "none"
+    },
+    "quality-eval": {
+      "success": 0,
+      "fail": 0,
+      "adjust": 0,
+      "lastSuccessDate": null,
+      "lastFailDate": null,
+      "relatedCases": [],
+      "potentialRule": null,
+      "status": "none"
+    },
+    "opening-hook": {
+      "success": 0,
+      "fail": 0,
+      "adjust": 0,
+      "lastSuccessDate": null,
+      "lastFailDate": null,
+      "relatedCases": [],
+      "potentialRule": null,
+      "status": "none"
+    },
+    "ending-hook": {
+      "success": 0,
+      "fail": 0,
+      "adjust": 0,
+      "lastSuccessDate": null,
+      "lastFailDate": null,
+      "relatedCases": [],
+      "potentialRule": null,
+      "status": "none"
+    },
+    "description-polish": {
+      "success": 0,
+      "fail": 0,
+      "adjust": 0,
+      "lastSuccessDate": null,
+      "lastFailDate": null,
+      "relatedCases": [],
+      "potentialRule": null,
+      "status": "none"
+    },
+    "emotion-enhance": {
+      "success": 0,
+      "fail": 0,
+      "adjust": 0,
+      "lastSuccessDate": null,
+      "lastFailDate": null,
+      "relatedCases": [],
+      "potentialRule": null,
+      "status": "none"
+    }
+  },
+  
+  "preferenceCounter": {
+    "style": {},
+    "content": {},
+    "interaction": {}
+  },
+  
+  "ruleVerificationCounter": {
+    "writing-rules": {},
+    "quality-rules": {},
+    "anti-patterns": {}
+  },
+  
+  "triggerHistory": [],
+  
+  "statistics": {
+    "totalCases": 0,
+    "totalSuccess": 0,
+    "totalFail": 0,
+    "totalAdjust": 0,
+    "totalRulesGenerated": 0,
+    "totalPreferencesConfirmed": 0,
+    "evolutionLevel": "Lv.1",
+    "evolutionPoints": 0
+  }
+}
