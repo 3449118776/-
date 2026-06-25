@@ -273,7 +273,7 @@ async function main(params) {
       case 'search_character': {
         const profile = (ms && ms._characterProfiles) ? ms._characterProfiles[args.name] : null;
         const trajectory = (ms && typeof ms.getCharacterTrajectory === 'function') ? ms.getCharacterTrajectory(args.name) : [];
-        const roleMap = ms && (ms._charRoles || ms._characterRoles) ? (ms._charRoles || ms._characterRoles) : {};
+        const roleMap = ms && ms._charRoles ? ms._charRoles : {};
         result.data = profile ? {
           name: args.name,
           role: roleMap[args.name] || '未知',

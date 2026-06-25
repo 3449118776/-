@@ -14,6 +14,7 @@
     "scenes": []
   },
   "chapterIndex": [],
+  "indexedChapters": {},
   "characterProfiles": {},
   "charRoles": {},
   "charStates": [],
@@ -29,9 +30,10 @@
   },
   "volumeMemories": [],
   "characterHistory": {},
+  "snapshots": [],
   "meta": {
     "title": "僮谷",
-    "createdAt": 1782348078222,
+    "createdAt": 1782348205796,
     "totalChapters": 0
   }
 }

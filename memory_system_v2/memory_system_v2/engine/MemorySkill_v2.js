@@ -102,7 +102,7 @@ var MemorySkill = (function () {
     if (options.chapter != null && !this._indexedChapters[options.chapter]) {
       this._chapterIndex.push({
         chapterIdx: options.chapter,
-        summary: (this._chapterIndex.length > 0 ? this._chapterIndex[this._chapterIndex.length - 1].summary + ' ' : '') + text
+        summary: text
       });
       this._chapterIndex.sort(function (a, b) { return a.chapterIdx - b.chapterIdx; });
       this._indexedChapters[options.chapter] = true;
@@ -120,6 +120,7 @@ var MemorySkill = (function () {
       existing.summary = summary;
     } else {
       this._chapterIndex.push({ chapterIdx: chapterIdx, summary: summary });
+      this._indexedChapters[chapterIdx] = true;
     }
     this._chapterIndex.sort(function (a, b) { return a.chapterIdx - b.chapterIdx; });
     this._meta.totalChapters = Math.max(this._meta.totalChapters, chapterIdx + 1);
@@ -178,6 +179,7 @@ var MemorySkill = (function () {
     return JSON.parse(JSON.stringify({
       anchors: this._anchors,
       chapterIndex: this._chapterIndex,
+      indexedChapters: this._indexedChapters,
       characterProfiles: this._characterProfiles,
       charRoles: this._charRoles,
       charStates: this._charStates,
@@ -189,6 +191,7 @@ var MemorySkill = (function () {
       rollingSummary: this._rollingSummary,
       volumeMemories: this._volumeMemories,
       characterHistory: this._characterHistory,
+      snapshots: this._snapshots,
       meta: this._meta
     }));
   };
@@ -197,6 +200,7 @@ var MemorySkill = (function () {
   MemorySkill.prototype.import = function (data) {
     if (data.anchors) this._anchors = data.anchors;
     if (data.chapterIndex) this._chapterIndex = data.chapterIndex;
+    if (data.indexedChapters) this._indexedChapters = data.indexedChapters;
     if (data.characterProfiles) this._characterProfiles = data.characterProfiles;
     if (data.charRoles) this._charRoles = data.charRoles;
     if (data.charStates) this._charStates = data.charStates;
@@ -208,6 +212,7 @@ var MemorySkill = (function () {
     if (data.rollingSummary) this._rollingSummary = data.rollingSummary;
     if (data.volumeMemories) this._volumeMemories = data.volumeMemories;
     if (data.characterHistory) this._characterHistory = data.characterHistory;
+    if (data.snapshots) this._snapshots = data.snapshots;
     if (data.meta) this._meta = data.meta;
   };
 
