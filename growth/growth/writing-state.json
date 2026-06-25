@@ -1,0 +1,81 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-06-25",
+  "description": "创作状态管理器 - 记录当前写作进度、前文摘要、关键设定快照，确保AI动笔前先读懂前面的内容",
+
+  "projectInfo": {
+    "title": "未命名作品",
+    "genre": "未定",
+    "targetPlatform": "未定",
+    "totalWords": 0,
+    "totalChapters": 0,
+    "currentVolume": 0,
+    "currentChapter": 0,
+    "status": "初始化",
+    "createdAt": "2026-06-25"
+  },
+
+  "currentState": {
+    "lastChapterWritten": 0,
+    "lastScene": "",
+    "lastLocation": "",
+    "lastCharacters": [],
+    "lastPlotPoint": "",
+    "unresolvedTensions": [],
+    "activeForeshadows": [],
+    "pendingCliffhangers": []
+  },
+
+  "recentSummary": {
+    "last3Chapters": "",
+    "last10Chapters": "",
+    "currentVolumeSummary": "",
+    "overallSummary": ""
+  },
+
+  "characterStatus": {
+    "protagonist": {
+      "name": "",
+      "currentLocation": "",
+      "currentCondition": "",
+      "currentGoal": "",
+      "currentEmotion": "",
+      "recentChanges": [],
+      "lastSeenChapter": 0
+    },
+    "mainCharacters": [],
+    "supportingCharacters": []
+  },
+
+  "worldStateSnapshot": {
+    "currentFactionRelations": "",
+    "currentWorldSituation": "",
+    "recentMajorEvents": [],
+    "knownSecrets": [],
+    "unrevealedSecrets": []
+  },
+
+  "plotState": {
+    "mainPlotProgress": 0,
+    "subPlots": [],
+    "completedArcs": [],
+    "activeArcs": [],
+    "nextMajorPlotPoint": "",
+    "upcomingEvents": []
+  },
+
+  "consistencyChecklist": {
+    "lastCheckChapter": 0,
+    "issuesFound": 0,
+    "issuesFixed": 0,
+    "pendingIssues": []
+  },
+
+  "writingHabit": {
+    "avgChapterLength": 0,
+    "avgScenesPerChapter": 0,
+    "commonChapterStructure": [],
+    "pacingPattern": "",
+    "userPreferredStyle": ""
+  }
+}
