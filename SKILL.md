@@ -14,50 +14,33 @@ description: 文心笔匠 AI 写作助手。提供小说创作全流程支持，
 ```
 SKILL.md（本文件 — 路由调度 + 偏好管理 + 进化系统）
     │
-    ├── 创作能力 → wenxin-bijiang MCP Server
-    │   ├── world_building_guide      世界观构建方法论
-    │   ├── character_design_guide    人物设计方法论
-    │   ├── plot_architecture_guide   剧情架构方法论
-    │   ├── text_quality_guide        正文写作与质量方法论
-    │   ├── web_novel_guide          网文特化方法论
-    │   ├── advanced_tools_guide      高级工具（逻辑检测/题材引擎）
-    │   ├── quality_evaluation        17维质量评估
-    │   ├── writing_style_analyze     风格分析与蒸馏
-    │   ├── world_logic_check         世界逻辑一致性检测
-    │   ├── causal_logic_check        因果逻辑检测
-    │   ├── character_deep_conflict_generate  深层人设矛盾生成
-    │   ├── foreshadowing_network_design      伏笔网络设计
-    │   ├── golden_three_chapters    黄金三章设计
-    │   ├── toxin_detect             毒点检测
-    │   ├── genre_engine_apply       题材特化引擎
-    │   ├── continue_writing         续写正文
-    │   ├── polish_text              润色文本
-    │   ├── expand_text              扩写片段
-    │   └── rewrite_in_style         风格改写
+    ├── 写作方法论 → wenxin-bijiang MCP Server
+    │   ├── wenxin_world_building_guide      世界观构建方法论
+    │   ├── wenxin_character_design_guide    人物设计方法论
+    │   ├── wenxin_plot_architecture_guide   剧情架构方法论
+    │   ├── wenxin_text_quality_guide        正文写作与质量方法论
+    │   ├── wenxin_web_novel_guide          网文特化方法论
+    │   └── wenxin_advanced_tools_guide      高级写作工具（逻辑检测/伏笔设计/题材引擎）
     │
-    ├── 记忆系统 → wenxin-bijiang MCP Server
-    │   ├── memory_init_work          初始化作品记忆库
-    │   ├── memory_record_chapter     记录章节记忆
-    │   ├── memory_record_character   记录角色档案
-    │   ├── memory_search             搜索记忆
-    │   ├── memory_load_base          加载基础记忆（章节前回顾）
-    │   ├── memory_check_consistency  记忆一致性检查（体检）
-    │   ├── memory_get_full_analysis  完整记忆分析报告
-    │   ├── memory_list_works         列出作品列表
-    │   └── memory_switch_work        切换作品
+    ├── 质量保障体系 → wenxin-bijiang MCP Server
+    │   ├── wenxin_pre_writing_checklist    写前检查清单（动笔前必读）
+    │   ├── wenxin_consistency_checker      一致性校验系统（防吃书）
+    │   ├── wenxin_quality_gate             质量门禁系统（防偷懒打分）
+    │   └── wenxin_ai_common_mistakes       AI常犯错误实例库（反模式）
     │
-    └── 进化系统 → growth/ 目录
-        ├── preferences/   用户偏好档案
-        ├── case-library/  案例库
-        ├── rule-library/  规则库
-        └── evolution-log/ 进化日志
-
-    写作质量保障体系 → growth/ 目录
-        ├── pre-writing-checklist.md  写前检查清单（动笔前必读）
-        ├── consistency-checker.md    一致性校验系统（防吃书）
-        ├── ai-common-mistakes.md     AI常犯错误实例库（反模式）
-        ├── quality-gate.md           质量门禁系统（防偷懒打分）
-        └── writing-state.json        创作状态管理器（进度快照）
+    ├── 记忆系统 → wenxin-bijiang MCP Server（KV 存储）
+    │   ├── wenxin_memory_save              保存记忆（人设/设定/章节）
+    │   ├── wenxin_memory_load              加载记忆（动笔前回顾）
+    │   ├── wenxin_memory_list              列出记忆（看看存了什么）
+    │   └── wenxin_memory_delete            删除记忆
+    │
+    └── 进化系统 → wenxin-bijiang MCP Server（KV 存储）
+        ├── wenxin_evolution_status         进化状态查看
+        └── growth/ 目录
+            ├── preferences/   用户偏好档案
+            ├── case-library/  案例库
+            ├── rule-library/  规则库
+            └── evolution-log/ 进化日志
 ```
 
 ---
@@ -87,14 +70,14 @@ Skill 被调用时，按以下优先级加载数据：
     ├── content-prefs.md     内容偏好
     └── interaction-prefs.md 交互偏好
     ↓
-第4层：通过 MCP 工具 memory_load_base 加载已有记忆作为上下文
+第4层：通过 MCP 工具 wenxin_memory_load 加载已有记忆作为上下文
     ↓
 第5层：通过 MCP 工具加载对应能力模块的方法论
     ↓
 第6层：需要时检索
     ├── growth/case-library/          案例库（找先例参考）
     ├── growth/rule-library/          规则库（用验证过的规则增强）
-    └── MCP 工具 memory_search        记忆检索（重现之前记录的设定/伏笔/角色状态）
+    └── MCP 工具 wenxin_memory_load    记忆检索（重现之前记录的设定/伏笔/角色状态）
 ```
 
 **硬约束**：用户偏好档案的优先级高于模块默认设置。如果用户明确偏好与模块建议冲突，以用户偏好为准。
@@ -238,15 +221,20 @@ Skill 被调用时，按以下优先级加载数据：
 
 ### 能力模块 → MCP 工具映射
 
-| 能力领域 | 获取方法论的工具 | 专项操作工具 | 何时调用 |
-|---------|---------------|------------|---------|
-| 世界观构建 | `world_building_guide` | `world_logic_check` | 用户涉及世界观/设定/世界逻辑时 |
-| 人物设计 | `character_design_guide` | `character_deep_conflict_generate` | 用户涉及人物/人设/角色关系时 |
-| 剧情架构 | `plot_architecture_guide` | `foreshadowing_network_design` | 用户涉及大纲/细纲/剧情/节奏/伏笔时 |
-| 正文质量 | `text_quality_guide` | `quality_evaluation`, `writing_style_analyze`, `continue_writing`, `polish_text`, `expand_text`, `rewrite_in_style` | 用户涉及续写/润色/扩写/质量评估/风格时 |
-| 网文特化 | `web_novel_guide` | `golden_three_chapters`, `toxin_detect` | 用户写网文/涉及平台/爽感/日更/毒点时 |
-| 高级工具 | `advanced_tools_guide` | `causal_logic_check`, `genre_engine_apply` | 涉及逻辑检测/一致性/特定题材时 |
-| 记忆系统 | — | `memory_*` 系列工具 | 贯穿全程 |
+| 能力领域 | 获取方法论的工具 | 包含的能力 | 何时调用 |
+|---------|---------------|-----------|---------|
+| 世界观构建 | `wenxin_world_building_guide` | 六维模型、构建原则 | 世界观/设定/世界逻辑 |
+| 人物设计 | `wenxin_character_design_guide` | 七层模型、关系设计 | 人物/人设/角色关系 |
+| 剧情架构 | `wenxin_plot_architecture_guide` | 三幕式、伏笔网络、节奏控制 | 大纲/细纲/剧情/节奏/伏笔 |
+| 正文质量 | `wenxin_text_quality_guide` | 白金法则、17维评估 | 续写/润色/扩写/质量评估 |
+| 网文特化 | `wenxin_web_novel_guide` | 黄金三章、爽感工程、毒点检测 | 网文/平台/爽感/日更/毒点 |
+| 高级工具 | `wenxin_advanced_tools_guide` | 逻辑检测、伏笔设计、题材特化 | 逻辑检测/一致性/特定题材 |
+| 质量保障 | `wenxin_pre_writing_checklist` | 写前检查 | 动笔前必做 |
+| 质量保障 | `wenxin_consistency_checker` | 一致性校验/防吃书 | 写完必做 |
+| 质量保障 | `wenxin_quality_gate` | 质量门禁打分 | 交付前必做 |
+| 质量保障 | `wenxin_ai_common_mistakes` | AI常犯错误对照 | 写完对照 |
+| 记忆系统 | `wenxin_memory_save/load/list` | 记忆存取 | 贯穿全程 |
+| 进化系统 | `wenxin_evolution_status` | 进化状态查看 | 查看进度 |
 
 **调用方式**：当判断需要某个领域的详细方法论时，调用对应的 MCP 工具获取指导内容，然后按返回的方法论执行。
 
@@ -274,9 +262,9 @@ Skill 被调用时，按以下优先级加载数据：
 
 ```
 用户是否明确提到：
-├── 起点/番茄/晋江/飞卢/七猫 → 是网文 → 优先调用 web_novel_guide
-├── 爽点/打脸/系统/日更/追读 → 是网文 → 优先调用 web_novel_guide
-├── 黄金三章/章尾钩子 → 是网文 → 优先调用 web_novel_guide
+├── 起点/番茄/晋江/飞卢/七猫 → 是网文 → 优先调用 wenxin_web_novel_guide
+├── 爽点/打脸/系统/日更/追读 → 是网文 → 优先调用 wenxin_web_novel_guide
+├── 黄金三章/章尾钩子 → 是网文 → 优先调用 wenxin_web_novel_guide
 └── 未明确提及 → 按通用文学创作处理 → 按需调用对应工具
 ```
 
@@ -284,12 +272,12 @@ Skill 被调用时，按以下优先级加载数据：
 
 | 场景 | 第一优先 | 第二优先 | 第三优先 |
 |------|----------|----------|----------|
-| 从零开始写小说 | `web_novel_guide`（网文）/ `world_building_guide` | `character_design_guide` | `plot_architecture_guide` |
-| 写大纲/细纲 | `plot_architecture_guide` | `character_design_guide` | `world_building_guide` |
-| 续写正文 | `text_quality_guide` + `memory_load_base` | `plot_architecture_guide` | `advanced_tools_guide` |
-| 润色/改文 | `text_quality_guide` | — | — |
-| 评估质量 | `quality_evaluation` | `toxin_detect`（网文） | — |
-| 检测问题 | `causal_logic_check` | `toxin_detect` | `world_logic_check` |
+| 从零开始写小说 | `wenxin_web_novel_guide`（网文）/ `wenxin_world_building_guide` | `wenxin_character_design_guide` | `wenxin_plot_architecture_guide` |
+| 写大纲/细纲 | `wenxin_plot_architecture_guide` | `wenxin_character_design_guide` | `wenxin_world_building_guide` |
+| 续写正文 | `wenxin_text_quality_guide` + `wenxin_memory_load` | `wenxin_plot_architecture_guide` | `wenxin_advanced_tools_guide` |
+| 润色/改文 | `wenxin_text_quality_guide` + `wenxin_ai_common_mistakes` | — | — |
+| 评估质量 | `wenxin_quality_gate` | `wenxin_web_novel_guide`（网文毒点） | — |
+| 检测一致性 | `wenxin_consistency_checker` | `wenxin_advanced_tools_guide` | — |
 
 ### 第四步：模糊输入引导
 
@@ -306,16 +294,16 @@ Skill 被调用时，按以下优先级加载数据：
 记忆系统通过 MCP 工具调用，嵌入在每一步创作中：
 
 **正文生成前（必做）**
-- 调用 `memory_load_base` 加载基础记忆上下文
+- 调用 `wenxin_memory_load` 加载基础记忆上下文
 - 确认：上几章发生了什么？主角状态？未解伏笔？
 
 **正文生成后（必做）**
-- 调用 `memory_record_chapter` 记录本章记忆
+- 调用 `wenxin_memory_save` 保存本章记忆（key: chapter_XXX）
 - 更新所有出场角色的最新状态
 
 **连续对话中**
-- 用户提到之前设定过的人物/事件 → 调用 `memory_search` 确认
-- 用户说"帮我检查" → 调用 `memory_check_consistency` 做记忆体检
+- 用户提到之前设定过的人物/事件 → 调用 `wenxin_memory_load` 确认
+- 用户说"帮我检查" → 调用 `wenxin_consistency_checker` 做一致性检查
 
 ---
 
@@ -332,10 +320,10 @@ AI 写作有两大通病：**记不住（吃书）**和**想偷懒（敷衍）**
     ↓
 第一步：加载创作状态
     ├── 读取 writing-state.json
-    └── 调用 memory_load_base 加载记忆
+    └── 调用 wenxin_memory_load 加载记忆
     ↓
 第二步：写前检查（必做）
-    └── 对照 pre-writing-checklist.md
+    └── 调用 wenxin_pre_writing_checklist
         ├── 当前状态确认（在哪？谁在？）
         ├── 设定一致性检查（世界观/人设/关系）
         ├── 剧情连贯性检查（前文/伏笔/线索）
@@ -346,25 +334,12 @@ AI 写作有两大通病：**记不住（吃书）**和**想偷懒（敷衍）**
 第三步：写内容
     ↓
 第四步：写完自检（必做）
-    ├── 一致性检查 → consistency-checker.md（防吃书）
-    │   ├── 低级错误（人名/时间/地点/伤势）
-    │   ├── 设定一致性（世界观/人物/关系）
-    │   └── 剧情连贯性（因果链/伏笔/节奏）
-    ├── AI 病检查 → ai-common-mistakes.md（防典型错误）
-    │   ├── 偷懒敷衍（水字数/废话对话/形容词堆砌）
-    │   ├── 逻辑崩坏（降智反派/巧合开挂/动机不明）
-    │   ├── 人设崩塌（性格突变/能力膨胀）
-    │   └── 情绪虚假（直接说情绪/喊口号）
-    └── 质量门禁 → quality-gate.md（打分，低于80分不许交付）
-        ├── 一致性（20分）
-        ├── 信息量（20分）
-        ├── 画面感（15分）
-        ├── 角色辨识度（15分）
-        ├── 节奏张力（15分）
-        └── AI病检测（15分）
+    ├── 一致性检查 → 调用 wenxin_consistency_checker
+    ├── AI 病检查 → 调用 wenxin_ai_common_mistakes
+    └── 质量门禁 → 调用 wenxin_quality_gate
     ↓
 第五步：更新状态
-    ├── 调用 memory_record_chapter 记录章节记忆
+    ├── 调用 wenxin_memory_save 保存章节记忆
     └── 更新 writing-state.json（当前进度/角色状态）
     ↓
 第六步：交付给用户
@@ -403,7 +378,7 @@ AI 写作有两大通病：**记不住（吃书）**和**想偷懒（敷衍）**
 
 **适用场景**：用户需要创建/完善小说世界观设定时。
 
-**MCP 工具**：调用 `world_building_guide` 获取方法论，调用 `world_logic_check` 检测不一致。
+**MCP 工具**：调用 `wenxin_world_building_guide` 获取方法论。
 
 **核心维度**：力量体系、势力格局、地理环境、社会结构、历史背景、代价与限制
 
@@ -413,7 +388,7 @@ AI 写作有两大通病：**记不住（吃书）**和**想偷懒（敷衍）**
 
 **适用场景**：用户需要创建/优化小说人物时。
 
-**MCP 工具**：调用 `character_design_guide` 获取方法论，调用 `character_deep_conflict_generate` 生成深层矛盾。
+**MCP 工具**：调用 `wenxin_character_design_guide` 获取方法论。
 
 **核心维度**：基础信息、核心动机、性格特质、弱点缺陷、能力特长、背景故事、人物弧光
 
@@ -423,7 +398,7 @@ AI 写作有两大通病：**记不住（吃书）**和**想偷懒（敷衍）**
 
 **适用场景**：用户需要创建/梳理故事大纲、细纲时。
 
-**MCP 工具**：调用 `plot_architecture_guide` 获取方法论，调用 `foreshadowing_network_design` 设计伏笔网络。
+**MCP 工具**：调用 `wenxin_plot_architecture_guide` 获取方法论。
 
 **核心方法**：三幕式结构、每卷得失三问、三层伏笔网络、节奏控制、钩子强度
 
@@ -433,9 +408,9 @@ AI 写作有两大通病：**记不住（吃书）**和**想偷懒（敷衍）**
 
 **适用场景**：用户需要续写、扩写、润色、改写正文，或评估文本质量时。
 
-**MCP 工具**：调用 `text_quality_guide` 获取方法论，调用 `quality_evaluation` 进行评估，调用 `writing_style_analyze` 分析风格。
+**MCP 工具**：调用 `wenxin_text_quality_guide` 获取方法论，调用 `wenxin_quality_gate` 进行质量门禁评估。
 
-**核心能力**：白金作家创作法则、17维度质量评估、风格分析与蒸馏、反陈词滥调
+**核心能力**：白金作家创作法则、17维度质量评估、反陈词滥调、质量门禁打分
 
 ---
 
@@ -443,7 +418,7 @@ AI 写作有两大通病：**记不住（吃书）**和**想偷懒（敷衍）**
 
 **适用场景**：用户创作网络小说（起点/番茄/晋江/飞卢等平台）。
 
-**MCP 工具**：调用 `web_novel_guide` 获取方法论，调用 `golden_three_chapters` 设计开篇，调用 `toxin_detect` 检测毒点。
+**MCP 工具**：调用 `wenxin_web_novel_guide` 获取方法论。
 
 **10大模块**：平台选型、黄金三章、爽感工程、日更节奏、人设工厂、细纲生成、章尾钩子、卡文突围、数据复盘
 
@@ -453,7 +428,7 @@ AI 写作有两大通病：**记不住（吃书）**和**想偷懒（敷衍）**
 
 **适用场景**：需要逻辑检测、一致性保证、特定题材指导时。
 
-**MCP 工具**：调用 `advanced_tools_guide` 获取方法论，调用 `causal_logic_check` 检测因果逻辑，调用 `genre_engine_apply` 应用题材特化引擎。
+**MCP 工具**：调用 `wenxin_advanced_tools_guide` 获取方法论，调用 `wenxin_consistency_checker` 做一致性检测。
 
 ---
 
@@ -475,8 +450,21 @@ AI 写作有两大通病：**记不住（吃书）**和**想偷懒（敷衍）**
 }
 ```
 
-### HTTP 模式（云端部署）
+### HTTP 模式（云端部署 / Cloudflare Workers）
 
+文心笔匠支持部署到 Cloudflare Workers，通过 URL 方式接入：
+
+```json
+{
+  "mcpServers": {
+    "wenxin-bijiang": {
+      "url": "https://wenxin-bijiang-mcp.1721532364.workers.dev/mcp"
+    }
+  }
+}
+```
+
+本地 HTTP 模式：
 ```bash
 cd /workspace/mcp-server && node src/http-server.js
 ```
