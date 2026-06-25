@@ -1,0 +1,37 @@
+{
+  "anchors": {
+    "core": [],
+    "characterTags": [],
+    "relationships": [],
+    "items": [],
+    "locations": [],
+    "promises": [],
+    "timeline": [],
+    "hooks": [],
+    "emotionTrack": [],
+    "dialogues": [],
+    "chapterContext": [],
+    "scenes": []
+  },
+  "chapterIndex": [],
+  "characterProfiles": {},
+  "charRoles": {},
+  "charStates": [],
+  "foreshadowLedger": [],
+  "itemLedger": [],
+  "factionGraph": {},
+  "timelineEvents": [],
+  "plotThreads": [],
+  "rollingSummary": {
+    "recent": "",
+    "milestones": "",
+    "eras": ""
+  },
+  "volumeMemories": [],
+  "characterHistory": {},
+  "meta": {
+    "title": "测试作品",
+    "createdAt": 1782345974521,
+    "totalChapters": 0
+  }
+}
