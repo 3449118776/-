@@ -1,0 +1,14 @@
+name = "wenxin-bijiang-mcp"
+main = "src/worker.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# KV 命名空间（部署后手动添加，或用命令创建）
+# kv_namespaces = [
+#   { binding = "WENXIN_MEMORY", id = "你的KV_ID" },
+#   { binding = "WENXIN_GROWTH", id = "你的KV_ID" },
+# ]
+
+[vars]
+SERVER_NAME = "wenxin-bijiang-mcp-server"
+SERVER_VERSION = "1.1.0"
