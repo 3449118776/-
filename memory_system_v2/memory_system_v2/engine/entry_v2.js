@@ -61,6 +61,7 @@ if (typeof process !== 'undefined' && process && process.env && process.env.DATA
 // 全局记忆实例管理
 let _memoryInstance = null;
 let _currentWorkName = 'default';
+let _sessionActive = false;   // 会话是否已绑定有效作品
 
 // 获取数据文件路径
 function getDataPath(workName) {
@@ -202,10 +203,22 @@ async function main(params) {
   const ms = getMemoryInstance(workName) || {};
   let result = { success: false, action, data: null, message: '' };
 
+  // ---- 写操作保护：未初始化拒绝写入 ----
+  const WRITE_ACTIONS = [
+    'record_chapter', 'record_character', 'record_foreshadow',
+    'record_item', 'record_faction', 'add_anchor', 'auto_archive',
+    'snapshot', 'rollback', 'import'
+  ];
+  if (WRITE_ACTIONS.includes(action) && !_sessionActive) {
+    result.message = '会话未绑定有效作品，请先调用 wenxin_init_work 初始化或 wenxin_switch_work 切换';
+    return result;
+  }
+
   try {
     switch (action) {
       // ===== 初始化类 =====
       case 'init_work':
+        _sessionActive = true;
         _memoryInstance = (typeof MemorySkill === 'function') ? new MemorySkill() : (MemorySkill && MemorySkill.default ? new MemorySkill.default() : {});
         if (args && args.workName && typeof _memoryInstance.setTitle === 'function') {
           _memoryInstance.setTitle(args.workName);
@@ -496,6 +509,7 @@ async function main(params) {
 
       case 'switch_work':
         if (args && args.workName) {
+          _sessionActive = true;
           _memoryInstance = loadMemory(args.workName);
           _currentWorkName = args.workName;
           result.success = true;
