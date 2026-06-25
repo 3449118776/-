@@ -128,6 +128,73 @@ function getMemoryInstance(workName) {
   return _memoryInstance;
 }
 
+// ==========================================================================
+// 分层上下文构建（静态/半静态/动态）
+// ==========================================================================
+
+/**
+ * 按层级构建记忆上下文
+ * @param {object} ms - MemorySkill 实例
+ * @param {string} layer - 'static' | 'semi_static' | 'dynamic' | 'all'
+ * @returns {object} 分层数据
+ */
+function buildLayerContext(ms, layer) {
+  const isAll = layer === 'all';
+  const isStatic = isAll || layer === 'static';
+  const isSemi = isAll || layer === 'semi_static';
+  const isDynamic = isAll || layer === 'dynamic';
+
+  const data = {};
+
+  // ------------------------------------------------
+  // 静态层 — 核心设定，几乎不变
+  // ------------------------------------------------
+  if (isStatic) {
+    data.static = {
+      title: (ms && ms._meta && ms._meta.title) || '',
+      totalChapters: (ms && ms._meta && ms._meta.totalChapters) || 0,
+      characters: ms && ms._characterProfiles ? ms._characterProfiles : {},
+      charRoles: ms && ms._charRoles ? ms._charRoles : {},
+      factions: ms && ms._factionGraph ? ms._factionGraph : {},
+      coreFacts: (ms && ms._anchors && ms._anchors.core) ? ms._anchors.core.slice() : [],
+      locations: (ms && ms._anchors && ms._anchors.locations) ? ms._anchors.locations.slice() : [],
+      characterTags: (ms && ms._anchors && ms._anchors.characterTags) ? ms._anchors.characterTags.slice() : []
+    };
+  }
+
+  // ------------------------------------------------
+  // 半静态层 — 随剧情推进偶尔更新
+  // ------------------------------------------------
+  if (isSemi) {
+    data.semi_static = {
+      foreshadows: Array.isArray(ms && ms._foreshadowLedger) ? ms._foreshadowLedger.slice() : [],
+      items: Array.isArray(ms && ms._itemLedger) ? ms._itemLedger.slice() : [],
+      timelineEvents: Array.isArray(ms && ms._timelineEvents) ? ms._timelineEvents.slice() : [],
+      plotThreads: Array.isArray(ms && ms._plotThreads) ? ms._plotThreads.slice() : [],
+      relationships: (ms && ms._anchors && ms._anchors.relationships) ? ms._anchors.relationships.slice() : [],
+      promises: (ms && ms._anchors && ms._anchors.promises) ? ms._anchors.promises.slice() : [],
+      hooks: (ms && ms._anchors && ms._anchors.hooks) ? ms._anchors.hooks.slice() : [],
+      characterHistory: ms && ms._characterHistory ? ms._characterHistory : {}
+    };
+  }
+
+  // ------------------------------------------------
+  // 动态层 — 每章更新的实时数据
+  // ------------------------------------------------
+  if (isDynamic) {
+    data.dynamic = {
+      chapterIndex: Array.isArray(ms && ms._chapterIndex) ? ms._chapterIndex.slice() : [],
+      rollingSummary: ms && ms._rollingSummary ? { ...ms._rollingSummary } : { recent: '', milestones: '', eras: '' },
+      emotionTrack: (ms && ms._anchors && ms._anchors.emotionTrack) ? ms._anchors.emotionTrack.slice() : [],
+      dialogues: (ms && ms._anchors && ms._anchors.dialogues) ? ms._anchors.dialogues.slice() : [],
+      chapterContext: (ms && ms._anchors && ms._anchors.chapterContext) ? ms._anchors.chapterContext.slice() : [],
+      scenes: (ms && ms._anchors && ms._anchors.scenes) ? ms._anchors.scenes.slice() : []
+    };
+  }
+
+  return data;
+}
+
 // 主入口
 async function main(params) {
   const { action, ...args } = params || {};
@@ -245,19 +312,17 @@ async function main(params) {
 
       // ===== 检索类 =====
       case 'load_base':
-        result.data = {
-          title: (ms && ms._meta && ms._meta.title) || '',
-          totalChapters: (ms && ms._meta && ms._meta.totalChapters) || 0,
-          characters: ms && ms._characterProfiles ? ms._characterProfiles : {},
-          coreFacts: (ms && ms._anchors && ms._anchors.core) ? ms._anchors.core : [],
-          factions: ms && ms._factionGraph ? ms._factionGraph : {},
-          locations: (ms && ms._anchors && ms._anchors.locations) ? ms._anchors.locations : [],
-          items: (ms && ms._anchors && ms._anchors.items) ? ms._anchors.items : [],
-          relationships: (ms && ms._anchors && ms._anchors.relationships) ? ms._anchors.relationships : [],
-          rollingSummary: ms && ms._rollingSummary ? ms._rollingSummary : { recent: '', milestones: '', eras: '' }
-        };
+        result.data = buildLayerContext(ms, 'all');
         result.success = true;
         break;
+
+      case 'get_context_by_layer': {
+        const layer = (args && args.layer) || 'all';
+        result.data = buildLayerContext(ms, layer);
+        result.success = true;
+        result.message = `分层数据已加载: ${layer}`;
+        break;
+      }
 
       case 'get_recent_context': {
         const limit = Number(args.limit) || (_config.defaults && _config.defaults.recentContextLimit) || 4;
