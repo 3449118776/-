@@ -11,4 +11,4 @@ compatibility_flags = ["nodejs_compat"]
 
 [vars]
 SERVER_NAME = "wenxin-bijiang-mcp-server"
-SERVER_VERSION = "1.1.0"
+SERVER_VERSION = "1.2.0"
