@@ -15,17 +15,19 @@ import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/
 import express from 'express';
 import { registerMemoryTools } from './memory-tools.js';
 import { registerModuleTools } from './module-tools.js';
+import { registerEvolutionTools } from './evolution-tools.js';
 
 // 创建 MCP 服务器实例
 const server = new McpServer({
   name: 'wenxin-bijiang-mcp-server',
-  version: '1.0.0',
-  description: '文心笔匠 AI 写作助手 MCP Server'
+  version: '1.1.0',
+  description: '文心笔匠 AI 写作助手 MCP Server - 结构化记忆系统、写作方法论、进化学习系统'
 });
 
 // 注册所有工具
 registerMemoryTools(server);
 registerModuleTools(server);
+registerEvolutionTools(server);
 
 const app = express();
 app.use(express.json());
@@ -57,10 +59,11 @@ app.get('/health', (req, res) => {
   res.json({
     status: 'ok',
     server: 'wenxin-bijiang-mcp-server',
-    version: '1.0.0',
+    version: '1.1.0',
     tools: {
       memory: 10,
-      modules: 8
+      modules: 8,
+      evolution: 7
     },
     timestamp: Date.now()
   });
@@ -76,7 +79,10 @@ app.get('/tools', (req, res) => {
       'wenxin_switch_work', 'wenxin_track_emotion'].map(n => ({ name: n, type: 'memory' })),
     ...['wenxin_world_building_guide', 'wenxin_character_design_guide', 'wenxin_plot_architecture_guide',
       'wenxin_text_quality_guide', 'wenxin_web_novel_guide', 'wenxin_advanced_tools_guide',
-      'wenxin_list_modules', 'wenxin_get_skill_definition'].map(n => ({ name: n, type: 'module' }))
+      'wenxin_list_modules', 'wenxin_get_skill_definition'].map(n => ({ name: n, type: 'module' })),
+    ...['wenxin_record_evolution', 'wenxin_get_evolution_status', 'wenxin_check_thresholds',
+      'wenxin_mark_rule_processed', 'wenxin_check_pending_rules', 'wenxin_auto_merge_rules',
+      'wenxin_merge_single_rule'].map(n => ({ name: n, type: 'evolution' }))
   ];
   res.json({ total: tools.length, tools });
 });
