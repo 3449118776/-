@@ -4,11 +4,12 @@
  * 部署: npx wrangler deploy
  * 端点: POST /mcp
  *
- * 工具列表（12个）:
- *   写作方法论（6个）: world_building / character_design / plot_architecture / text_quality / web_novel / advanced_tools
- *   质量保障（3个）: pre_writing_checklist / quality_gate / ai_common_mistakes
- *   记忆系统（3个）: memory_save / memory_load / memory_list
- *   工具（1个）: list_tools
+ * 工具列表（16个）:
+ *   写作方法论（6个）: wenxin_world_building_guide / wenxin_character_design_guide / wenxin_plot_architecture_guide / wenxin_text_quality_guide / wenxin_web_novel_guide / wenxin_advanced_tools_guide
+ *   质量保障（4个）: wenxin_pre_writing_checklist / wenxin_consistency_checker / wenxin_quality_gate / wenxin_ai_common_mistakes
+ *   记忆系统（4个）: wenxin_memory_save / wenxin_memory_load / wenxin_memory_list / wenxin_memory_delete
+ *   进化系统（1个）: wenxin_evolution_status
+ *   工具（1个）: wenxin_list_tools
  */
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
@@ -777,6 +778,23 @@ function registerTools(server, env) {
 }
 
 // ============================================================
+// Server & Transport（模块顶层复用，利用 Worker 实例热启动）
+// ============================================================
+
+const server = new McpServer({
+  name: 'wenxin-bijiang-mcp-server',
+  version: '1.2.0'
+});
+
+const transport = new WebStandardStreamableHTTPServerTransport({
+  enableJsonResponse: true
+});
+
+let toolsRegistered = false;
+
+server.connect(transport);
+
+// ============================================================
 // Worker 入口
 // ============================================================
 
@@ -795,7 +813,6 @@ export default {
       return new Response(null, { status: 204, headers: corsHeaders });
     }
 
-    // 健康检查
     if (url.pathname === '/health' && request.method === 'GET') {
       return Response.json({
         status: 'ok',
@@ -814,23 +831,14 @@ export default {
       }, { headers: corsHeaders });
     }
 
-    // MCP 端点
     if (url.pathname === '/mcp') {
-      const server = new McpServer({
-        name: 'wenxin-bijiang-mcp-server',
-        version: '1.2.0'
-      });
-      registerTools(server, env);
-
-      const transport = new WebStandardStreamableHTTPServerTransport({
-        enableJsonResponse: true
-      });
-
-      await server.connect(transport);
+      if (!toolsRegistered) {
+        registerTools(server, env);
+        toolsRegistered = true;
+      }
       return transport.handleRequest(request);
     }
 
-    // 根路径：简单说明
     if (url.pathname === '/' && request.method === 'GET') {
       return new Response(
         '# 文心笔匠 MCP Server\n\n' +
