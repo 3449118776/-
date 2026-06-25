@@ -149,7 +149,10 @@ export function toolResponse(textContent, structuredData) {
     content: [{ type: 'text', text: textContent }]
   };
   if (structuredData !== undefined) {
-    response.structuredContent = structuredData;
+    // structuredContent 必须为对象（record），数组需要包装
+    response.structuredContent = Array.isArray(structuredData)
+      ? { items: structuredData, count: structuredData.length }
+      : structuredData;
   }
   return response;
 }
