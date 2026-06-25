@@ -3,11 +3,14 @@ main = "src/worker.js"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
-# KV 命名空间（部署后手动添加，或用命令创建）
-# kv_namespaces = [
-#   { binding = "WENXIN_MEMORY", id = "你的KV_ID" },
-#   { binding = "WENXIN_GROWTH", id = "你的KV_ID" },
-# ]
+# KV 命名空间
+[[kv_namespaces]]
+  binding = "WENXIN_MEMORY"
+  id = "2bd950a582cb47559c0c9906d6466e32"
+
+[[kv_namespaces]]
+  binding = "WENXIN_GROWTH"
+  id = "7e22bd66be104dfd840e533565c159c0"
 
 [vars]
 SERVER_NAME = "wenxin-bijiang-mcp-server"
